@@ -1,4 +1,4 @@
-package com.miskiewicz.michal.carservicemanagement.Entity;
+package com.miskiewicz.michal.carservicemanagement.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

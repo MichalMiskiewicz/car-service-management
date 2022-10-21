@@ -1,6 +1,6 @@
-package com.miskiewicz.michal.carservicemanagement.Repository;
+package com.miskiewicz.michal.carservicemanagement.repositories;
 
-import com.miskiewicz.michal.carservicemanagement.Entity.Car;
+import com.miskiewicz.michal.carservicemanagement.entities.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

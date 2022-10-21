@@ -1,5 +1,6 @@
-package com.miskiewicz.michal.carservicemanagement.Entity;
+package com.miskiewicz.michal.carservicemanagement.entities;
 
+import com.miskiewicz.michal.carservicemanagement.entities.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,10 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +17,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Car {
+public class User {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -27,11 +26,18 @@ public class Car {
     @Type(type = "uuid-char")
     private UUID id;
 
-    private String type;
+    private String firstname;
 
-    private String brand;
+    private String lastname;
 
-    private String registrationNumber;
+    private String email;
 
-    private String VinNumber;
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+
+    @ManyToOne
+    private Address address;
+
+    @OneToMany
+    private List<Car> car;
 }

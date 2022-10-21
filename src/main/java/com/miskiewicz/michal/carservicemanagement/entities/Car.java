@@ -1,4 +1,4 @@
-package com.miskiewicz.michal.carservicemanagement.Entity;
+package com.miskiewicz.michal.carservicemanagement.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,10 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Repair {
+public class Car {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -25,17 +27,13 @@ public class Repair {
     @Type(type = "uuid-char")
     private UUID id;
 
-    private Timestamp approvedDate;
+    private String type;
 
-    private Timestamp finishedDate;
+    private String brand;
 
-    private String description;
+    private String model;
 
-    @ManyToOne
-    private Car car;
+    private String registrationNumber;
 
-    @ManyToOne
-    private RepairType repairType;
-
-
+    private String VinNumber;
 }
