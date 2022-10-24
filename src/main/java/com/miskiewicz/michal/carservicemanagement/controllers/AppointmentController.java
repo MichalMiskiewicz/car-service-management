@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("repair")
+@RequestMapping("appointment")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;

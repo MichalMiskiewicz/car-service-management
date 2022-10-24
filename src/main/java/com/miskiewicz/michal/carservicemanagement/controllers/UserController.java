@@ -4,8 +4,12 @@ import com.miskiewicz.michal.carservicemanagement.DTOs.UserDTO;
 import com.miskiewicz.michal.carservicemanagement.entities.User;
 import com.miskiewicz.michal.carservicemanagement.services.impl.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -14,15 +18,18 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/get")
-    public ResponseEntity<User> getUserInfo(){
-        return ResponseEntity.ok(userService.getUser());
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping("/add")
-    public ResponseEntity<UserDTO> addUser(@RequestBody User user){
-        UserDTO userDTO = userService.addUser(user);
-        System.out.println(userDTO.getCar().get(0).getBrand());
-        return ResponseEntity.ok(userDTO);
+    public ResponseEntity<UserDTO> addUser(@RequestBody User user) throws Exception {
+        try {
+            UserDTO userDTO = userService.addUser(user);
+            return ResponseEntity.ok(userDTO);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
     }
 }

@@ -32,5 +32,5 @@ public class Address {
 
     private String zipCode;
 
-    private String City;
+    private String city;
 }

@@ -1,15 +1,11 @@
 package com.miskiewicz.michal.carservicemanagement.DTOs;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Builder
-@Getter
-@Setter
+@Data
 public class AppointmentDTO {
 
     private UUID id;
