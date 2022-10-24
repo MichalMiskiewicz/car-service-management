@@ -32,25 +32,11 @@ public class UserService implements UserServiceInterface {
         Optional<User> optionalUser = userRepository.getUserByEmail(user.getEmail());
         if (optionalUser.isEmpty()) {
             checkAddressExists(user);
-            checkCarsExists(user);
+            checkCarExists(user);
             User savedUser = userRepository.save(user);
             return modelMapper.map(savedUser, UserDTO.class);
         } else {
             throw new Exception("This user already exists!");
-        }
-    }
-
-    private void checkAddressExists(User user) {
-        Optional<Address> optionalAddress =
-                addressRepository.getAddressByProvidedData(
-                        user.getAddress().getCity(),
-                        user.getAddress().getStreet(),
-                        user.getAddress().getHouseNumber()
-                );
-        if (optionalAddress.isEmpty()) {
-            addressRepository.save(user.getAddress());
-        } else {
-            user.setAddress(optionalAddress.get());
         }
     }
 
@@ -64,17 +50,39 @@ public class UserService implements UserServiceInterface {
         }
     }
 
-    private void checkCarsExists(User user) {
-        List<Car> cars = new ArrayList<>();
-        user.getCar().forEach(car -> {
-            Optional<Car> carByVinNumber = carRepository.getByVinNumber(car.getVinNumber());
-            if (carByVinNumber.isEmpty()) {
-                carRepository.save(car);
+    private void checkAddressExists(User user) throws Exception {
+        if(user.getAddress() == null){
+            throw new Exception("There is no address provided!");
+        }else {
+            Optional<Address> optionalAddress =
+                    addressRepository.getAddressByProvidedData(
+                            user.getAddress().getCity(),
+                            user.getAddress().getStreet(),
+                            user.getAddress().getHouseNumber()
+                    );
+            if (optionalAddress.isEmpty()) {
+                addressRepository.save(user.getAddress());
             } else {
-                cars.add(carByVinNumber.get());
-                user.setCar(cars);
+                user.setAddress(optionalAddress.get());
             }
-        });
+        }
+    }
+
+    private void checkCarExists(User user) throws Exception {
+        if(user.getCar() == null){
+            throw new Exception("There is no information about a car!");
+        }else {
+            List<Car> cars = new ArrayList<>();
+            user.getCar().forEach(car -> {
+                Optional<Car> carByVinNumber = carRepository.getByVinNumber(car.getVinNumber());
+                if (carByVinNumber.isEmpty()) {
+                    carRepository.save(car);
+                } else {
+                    cars.add(carByVinNumber.get());
+                    user.setCar(cars);
+                }
+            });
+        }
     }
 
     @Override

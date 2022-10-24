@@ -10,10 +10,6 @@ public class AppointmentDTO {
 
     private UUID id;
 
-    private String ownerFirstname;
-
-    private String ownerLastname;
-
     private Timestamp approvedDate;
 
     private Timestamp finishedDate;

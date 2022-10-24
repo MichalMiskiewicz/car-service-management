@@ -27,7 +27,9 @@ public class Appointment {
     private UUID id;
 
     private Timestamp approvedDate;
+
     private Timestamp finishedDate;
+
     private String description;
 
     @ManyToOne
