@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -21,6 +22,16 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID uuid) throws Exception {
+        try {
+            UserDTO userDTO = userService.getUserById(uuid);
+            return ResponseEntity.ok(userDTO);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping("/add")

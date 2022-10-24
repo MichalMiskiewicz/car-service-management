@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +51,16 @@ public class UserService implements UserServiceInterface {
             addressRepository.save(user.getAddress());
         } else {
             user.setAddress(optionalAddress.get());
+        }
+    }
+
+    @Override
+    public UserDTO getUserById(UUID uuid) throws Exception {
+        Optional<User> optionalUser = userRepository.findById(uuid);
+        if(optionalUser.isEmpty()){
+            throw new Exception("There is no user with that ID");
+        }else {
+            return modelMapper.map(optionalUser.get(), UserDTO.class);
         }
     }
 

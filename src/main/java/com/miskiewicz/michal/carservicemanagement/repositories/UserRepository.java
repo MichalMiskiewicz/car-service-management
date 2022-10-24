@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     @Query(value = "select * from user where email = :email", nativeQuery = true)
     Optional<User> getUserByEmail(@Param("email") String email);
+
 }
