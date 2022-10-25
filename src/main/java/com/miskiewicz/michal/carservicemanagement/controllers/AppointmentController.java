@@ -4,14 +4,14 @@ import com.miskiewicz.michal.carservicemanagement.DTOs.AppointmentDTO;
 import com.miskiewicz.michal.carservicemanagement.entities.Appointment;
 import com.miskiewicz.michal.carservicemanagement.services.impl.AppointmentService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.SplittableRandom;
 import java.util.UUID;
 
 @RestController
@@ -22,8 +22,8 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<AppointmentDTO>> getAllRepairs(){
-        return ResponseEntity.ok(appointmentService.getAllRepairs());
+    public ResponseEntity<Page<AppointmentDTO>> getAllAppointments(Pageable page){
+        return ResponseEntity.ok(appointmentService.getAllAppointments(page));
     }
 
     @PostMapping("/add/{carId}")

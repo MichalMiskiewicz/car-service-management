@@ -7,9 +7,9 @@ import com.miskiewicz.michal.carservicemanagement.entities.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class Mapper {
 
     @Bean
