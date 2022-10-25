@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.SplittableRandom;
 import java.util.UUID;
 
 @RestController
@@ -35,12 +37,40 @@ public class AppointmentController {
     }
 
     @PatchMapping("finished/{appointmentId}")
-    public AppointmentDTO setFinishedDate(@PathVariable UUID appointmentId){
+    public ResponseEntity<AppointmentDTO> setFinishedDate(@PathVariable UUID appointmentId){
         try {
-            return appointmentService.setFinishedDate(appointmentId);
+            return ResponseEntity.ok().body(appointmentService.setFinishedDate(appointmentId));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AppointmentDTO>> getAppointmentsByType(@RequestParam String type){
+        try{
+            return ResponseEntity.ok().body(appointmentService.getAppointmentsByType(type));
+        }catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/car/vin/{vinNumber}")
+    public ResponseEntity<List<AppointmentDTO>> getAppointmentsByVinNumber(@PathVariable("vinNumber") String vinNumber){
+        try{
+            return ResponseEntity.ok().body(appointmentService.getAppointmentsByVinNumber(vinNumber));
+        }catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+    @GetMapping("/car")
+    public ResponseEntity<List<AppointmentDTO>> getAppointmentsByBrandAndModel(
+            @RequestParam(value = "brand", required=false) String brand,
+            @RequestParam(value = "model", required=false) String model){
+       try {
+           return ResponseEntity.ok().body(appointmentService.getAppointmentsByBrandAndModel(brand, model));
+       }catch (Exception e){
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+       }
     }
 
 

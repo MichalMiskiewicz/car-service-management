@@ -12,4 +12,10 @@ public interface AppointmentServiceInterface {
     AppointmentDTO addAppointment(Appointment appointment, UUID carId) throws Exception;
 
     AppointmentDTO setFinishedDate(UUID appointmentId) throws Exception;
+
+    List<AppointmentDTO> getAppointmentsByType(String type) throws Exception;
+
+    List<AppointmentDTO> getAppointmentsByVinNumber(String vinNumber) throws Exception;
+
+    List<AppointmentDTO> getAppointmentsByBrandAndModel(String brand, String model) throws Exception;
 }

@@ -71,4 +71,50 @@ public class AppointmentService implements AppointmentServiceInterface {
         Appointment updatedAppointment = appointmentRepository.save(optionalAppointment.get());
         return modelMapper.map(updatedAppointment, AppointmentDTO.class);
     }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentsByType(String type) throws Exception {
+        List<Appointment> optionalAppointments = appointmentRepository.findAll();
+
+
+        List<Appointment> appointmentsList = optionalAppointments
+                .stream()
+                .filter(appointment -> appointment.getAppointmentType() != null &&
+                        appointment.getAppointmentType().getName().equals(type)).toList();
+
+        if (appointmentsList.isEmpty()){
+            throw new Exception("There is no appointments of type: " + type);
+        }
+
+        return appointmentsList
+                .stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentDTO.class))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentsByVinNumber(String vinNumber) throws Exception {
+        List<Appointment> appointments = appointmentRepository.getAppointmentByVinNumber(vinNumber);
+        if (appointments.isEmpty()){
+            throw new Exception("There is no appointments of car: " + vinNumber);
+        }
+
+        return appointments
+                .stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentsByBrandAndModel(String brand, String model) throws Exception {
+        List<Appointment> appointments = appointmentRepository.getAppointmentsByBrandAndModel(brand, model);
+        if (appointments.isEmpty()){
+            throw new Exception("There is no appointments with: " + brand + " " + model);
+        }
+
+        return appointments.stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentDTO.class))
+                .collect(Collectors.toList());
+    }
 }
