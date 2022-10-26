@@ -10,6 +10,8 @@ import com.miskiewicz.michal.carservicemanagement.repositories.UserRepository;
 import com.miskiewicz.michal.carservicemanagement.services.UserServiceInterface;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class UserService implements UserServiceInterface {
     private final CarRepository carRepository;
     private final AddressRepository addressRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO addUser(User user) throws Exception {
@@ -33,6 +36,7 @@ public class UserService implements UserServiceInterface {
         if (optionalUser.isEmpty()) {
             checkAddressExists(user);
             checkCarExists(user);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             User savedUser = userRepository.save(user);
             return modelMapper.map(savedUser, UserDTO.class);
         } else {
@@ -88,6 +92,8 @@ public class UserService implements UserServiceInterface {
     @Override
     public List<UserDTO> getAllUsers() {
         List<User> allUsers = userRepository.findAll();
-        return allUsers.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        return allUsers.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 }

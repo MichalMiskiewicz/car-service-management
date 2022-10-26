@@ -1,10 +1,7 @@
 package com.miskiewicz.michal.carservicemanagement.entities;
 
 import com.miskiewicz.michal.carservicemanagement.entities.enums.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {

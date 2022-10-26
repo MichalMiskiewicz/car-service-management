@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,8 +39,9 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<UserDTO> addUser(@RequestBody User user) throws Exception {
         try {
+            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/add").toUriString());
             UserDTO userDTO = userService.addUser(user);
-            return ResponseEntity.ok(userDTO);
+            return ResponseEntity.created(uri).body(userDTO);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }

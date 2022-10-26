@@ -9,6 +9,5 @@ import java.util.UUID;
 public interface UserServiceInterface {
     UserDTO addUser(User user) throws Exception;
     List<UserDTO> getAllUsers();
-
     UserDTO getUserById(UUID uuid) throws Exception;
 }

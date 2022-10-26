@@ -27,7 +27,9 @@ public class AppointmentController {
     }
 
     @PostMapping("/add/{carId}")
-    public ResponseEntity<AppointmentDTO> addAppointment(@RequestBody Appointment appointment, @PathVariable UUID carId) throws Exception {
+    public ResponseEntity<AppointmentDTO> addAppointment(
+            @RequestBody Appointment appointment,
+            @PathVariable UUID carId) throws Exception {
         try{
             return ResponseEntity.ok().body(appointmentService.addAppointment(appointment, carId));
         }catch (Exception e){
