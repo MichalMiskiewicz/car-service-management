@@ -4,10 +4,12 @@ import com.miskiewicz.michal.carservicemanagement.entities.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
     @Query(value = "select * from appointment a join car c on a.car_id = c.id where c.vin_number = :vinNumber"
             , nativeQuery = true)

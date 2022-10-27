@@ -96,4 +96,5 @@ public class UserService implements UserServiceInterface {
                 .map(user -> modelMapper.map(user, UserDTO.class))
                 .collect(Collectors.toList());
     }
+
 }

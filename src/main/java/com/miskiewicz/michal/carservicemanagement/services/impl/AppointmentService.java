@@ -62,7 +62,8 @@ public class AppointmentService implements AppointmentServiceInterface {
             throw new Exception("There is no Exception with that ID!");
         }
 
-        if (!optionalAppointment.get().getFinishedDate().toString().equals("")){
+        if (optionalAppointment.get().getFinishedDate() != null
+                && !optionalAppointment.get().getFinishedDate().toString().equals("")){
             throw new Exception("The appointment has been finished already!");
         }
 

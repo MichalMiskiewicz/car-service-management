@@ -31,7 +31,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/login")){
+        if (request.getServletPath().equals("/api/login") || request.getServletPath().equals("/user/token/refresh")){
             filterChain.doFilter(request, response);
         }else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -47,14 +47,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     stream(roles).forEach(role -> {
                         authorities.add(new SimpleGrantedAuthority(role));
                     });
-                    System.out.println("a");
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
-                    System.out.println("b");
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    System.out.println("c");
                     filterChain.doFilter(request, response);
-                    System.out.println("d");
                 }catch (Exception e){
                     log.error("Error logging in: {}", e.getMessage());
                     response.setHeader("error", e.getMessage());

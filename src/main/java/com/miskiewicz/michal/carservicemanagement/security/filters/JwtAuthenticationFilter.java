@@ -64,8 +64,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
         /*response.setHeader("access_token", accessToken);
-        response.setHeader("refresh_token", refreshToken);
-        */
+        response.setHeader("refresh_token", refreshToken);*/
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", accessToken);
         tokens.put("refresh_token", refreshToken);

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -37,8 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.cors()
                 .and().authorizeRequests()
-                .antMatchers(GET, "/api/login/**").permitAll()
-                .antMatchers(GET, "/appointment/all?**").hasAnyAuthority("ADMIN")
+                .antMatchers(POST, "/api/login/**").permitAll()
+                .antMatchers(POST, "/user/add/**").permitAll()
+                .antMatchers(GET, "/user/token/refresh/**").permitAll()
+                .antMatchers(GET, "/swagger-ui/index.html/**").permitAll()
+                .antMatchers(GET, "/appointment/all**").hasAnyAuthority("ADMIN")
                 .antMatchers(GET, "/user/all").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(STATELESS);

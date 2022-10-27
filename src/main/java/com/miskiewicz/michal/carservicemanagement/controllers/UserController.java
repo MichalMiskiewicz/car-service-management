@@ -2,6 +2,7 @@ package com.miskiewicz.michal.carservicemanagement.controllers;
 
 import com.miskiewicz.michal.carservicemanagement.DTOs.UserDTO;
 import com.miskiewicz.michal.carservicemanagement.entities.User;
+import com.miskiewicz.michal.carservicemanagement.security.RefreshToken;
 import com.miskiewicz.michal.carservicemanagement.services.impl.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +23,7 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final RefreshToken refreshToken;
 
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -46,4 +50,15 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
     }
+
+    @GetMapping("/token/refresh")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        try{
+            refreshToken.refreshToken(request, response);
+        }catch (Exception e){
+
+        }
+    }
+
+
 }
