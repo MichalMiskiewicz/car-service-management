@@ -23,7 +23,6 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-    private final RefreshToken refreshToken;
 
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -50,15 +49,5 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
     }
-
-    @GetMapping("/token/refresh")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        try{
-            refreshToken.refreshToken(request, response);
-        }catch (Exception e){
-
-        }
-    }
-
 
 }
