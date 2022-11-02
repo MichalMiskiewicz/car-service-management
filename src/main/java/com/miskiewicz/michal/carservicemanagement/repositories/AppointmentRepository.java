@@ -14,6 +14,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     @Query(value = "select * from appointment a join car c on a.car_id = c.id where c.vin_number = :vinNumber"
             , nativeQuery = true)
     List<Appointment> getAppointmentByVinNumber(@Param("vinNumber") String vinNumber);
+
     @Query(value = "select * from appointment a " +
             "join car c on a.car_id = c.id " +
             "where (:brand is null or c.brand = :brand)" +

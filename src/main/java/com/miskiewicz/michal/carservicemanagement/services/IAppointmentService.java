@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 
-public interface AppointmentServiceInterface {
+public interface IAppointmentService {
     Page<AppointmentDTO> getAllAppointments(Pageable page);
 
     AppointmentDTO addAppointment(Appointment appointment, UUID carId) throws Exception;

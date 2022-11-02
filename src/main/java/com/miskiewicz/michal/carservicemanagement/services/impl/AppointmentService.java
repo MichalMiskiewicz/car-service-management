@@ -6,7 +6,7 @@ import com.miskiewicz.michal.carservicemanagement.entities.Car;
 import com.miskiewicz.michal.carservicemanagement.repositories.AppointmentRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.AppointmentTypeRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.CarRepository;
-import com.miskiewicz.michal.carservicemanagement.services.AppointmentServiceInterface;
+import com.miskiewicz.michal.carservicemanagement.services.IAppointmentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class AppointmentService implements AppointmentServiceInterface {
+public class AppointmentService implements IAppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
@@ -120,4 +120,7 @@ public class AppointmentService implements AppointmentServiceInterface {
                 .map(appointment -> modelMapper.map(appointment, AppointmentDTO.class))
                 .collect(Collectors.toList());
     }
+
+
 }
+

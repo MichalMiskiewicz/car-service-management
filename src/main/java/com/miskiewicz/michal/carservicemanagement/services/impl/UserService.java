@@ -7,10 +7,9 @@ import com.miskiewicz.michal.carservicemanagement.entities.User;
 import com.miskiewicz.michal.carservicemanagement.repositories.AddressRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.CarRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.UserRepository;
-import com.miskiewicz.michal.carservicemanagement.services.UserServiceInterface;
+import com.miskiewicz.michal.carservicemanagement.services.IUserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserServiceInterface {
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final CarRepository carRepository;
