@@ -52,6 +52,7 @@ class AppointmentRepositoryTest {
         List<Appointment> appointments = appointmentRepository
                 .getAppointmentByVinNumber("EXAMPLEVINNUMBER");
 
+
         appointments.forEach(x ->
                 assertThat(x.getCar().getVinNumber()).isEqualTo("EXAMPLEVINNUMBER")
         );
@@ -62,6 +63,7 @@ class AppointmentRepositoryTest {
     void itShouldReturnAppointmentsByBrandAndModel() {
         List<Appointment> appointments = appointmentRepository
                 .getAppointmentsByBrandAndModel("brand", "model");
+
 
         appointments.forEach(x -> {
             assertThat(x.getCar().getBrand()).isEqualTo("brand");

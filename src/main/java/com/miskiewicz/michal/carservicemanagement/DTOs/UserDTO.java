@@ -1,6 +1,7 @@
 package com.miskiewicz.michal.carservicemanagement.DTOs;
 
 import com.miskiewicz.michal.carservicemanagement.entities.Car;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;

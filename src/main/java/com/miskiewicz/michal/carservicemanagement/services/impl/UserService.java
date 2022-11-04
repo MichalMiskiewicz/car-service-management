@@ -9,10 +9,12 @@ import com.miskiewicz.michal.carservicemanagement.repositories.CarRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.UserRepository;
 import com.miskiewicz.michal.carservicemanagement.services.IUserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
@@ -37,6 +40,7 @@ public class UserService implements IUserService {
             checkCarExists(user);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             User savedUser = userRepository.save(user);
+            log.info("Saved user has id: {}", savedUser.getId());
             return modelMapper.map(savedUser, UserDTO.class);
         } else {
             throw new Exception("This user already exists!");

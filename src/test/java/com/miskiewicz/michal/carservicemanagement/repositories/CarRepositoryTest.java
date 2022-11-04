@@ -34,6 +34,7 @@ class CarRepositoryTest {
     void itShouldReturnCarByVinNumber() {
         Optional<Car> carOptional = carRepository.getByVinNumber("EXAMPLEVINNUMBER");
 
+
         assertTrue(carOptional.isPresent());
         assertThat(carOptional.get().getVinNumber()).isEqualTo("EXAMPLEVINNUMBER");
     }

@@ -1,5 +1,6 @@
 package com.miskiewicz.michal.carservicemanagement.services.impl;
 
+import com.miskiewicz.michal.carservicemanagement.DTOs.UserDTO;
 import com.miskiewicz.michal.carservicemanagement.entities.Address;
 import com.miskiewicz.michal.carservicemanagement.entities.Car;
 import com.miskiewicz.michal.carservicemanagement.entities.User;
@@ -20,12 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,8 +45,9 @@ class UserServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     private UserService userService;
-
     private User user;
+    private Car car;
+
 
     @BeforeEach
     void setUp() {
@@ -55,16 +59,22 @@ class UserServiceTest {
                 UserType.CLIENT,
                 new Address(),
                 List.of(new Car()));
+        car = new Car("type",
+                "brand",
+                "model",
+                "registrationNumber",
+                "EXAMPLEVINNUMBER");
     }
 
     @Test
     void canAddUser() throws Exception {
         userService.addUser(user);
-
         ArgumentCaptor<User> userArgumentCaptor =
                 ArgumentCaptor.forClass(User.class);
 
+
         verify(userRepository).save(userArgumentCaptor.capture());
+
 
         User capturedUser = userArgumentCaptor.getValue();
         assertThat(capturedUser).isEqualTo(user);
@@ -75,6 +85,7 @@ class UserServiceTest {
         given(userRepository.getUserByEmail(anyString()))
                 .willReturn(Optional.of(user));
 
+
         assertThatThrownBy(() -> userService.addUser(user))
                 .isInstanceOf(Exception.class)
                 .hasMessageContaining("This user already exists!");
@@ -83,14 +94,25 @@ class UserServiceTest {
     @Test
     @Disabled
     void getUserById() throws Exception {
-        given(userRepository.findById(any()))
-                .willReturn(Optional.of(user));
+        userService = mock(UserService.class);
+        modelMapper = mock(ModelMapper.class);
+        //given(userService.getUserById(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"))).willReturn(
+        //        new UserDTO("m", "m", "m@m.pl", List.of(car), "krakow",
+        //                UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), "CLIENT"));
+
+
+        UserDTO userDTO = userService.getUserById(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
+
+
+        assertThat(userDTO.getEmail()).isEqualTo("m@m.pl");
     }
 
     @Test
     void willThrowWhenUserWithThatIdDoesNotExists() throws Exception {
         given(userRepository.findById(any()))
                 .willReturn(Optional.empty());
+
+
         assertThatThrownBy(() -> userService.getUserById(any()))
                 .isInstanceOf(Exception.class)
                 .hasMessageContaining("There is no user with that ID");
@@ -99,6 +121,7 @@ class UserServiceTest {
     @Test
     void canGetAllUsers() {
         userService.getAllUsers();
+
         verify(userRepository).findAll();
     }
 

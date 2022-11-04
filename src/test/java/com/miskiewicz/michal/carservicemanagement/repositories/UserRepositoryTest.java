@@ -58,6 +58,7 @@ class UserRepositoryTest {
     void itShouldReturnUserByEmail() {
         Optional<User> optionalUser = userRepository.getUserByEmail("email@email.com");
 
+
         assertTrue(optionalUser.isPresent());
         assertThat(optionalUser.get().getEmail()).isEqualTo("email@email.com");
 
