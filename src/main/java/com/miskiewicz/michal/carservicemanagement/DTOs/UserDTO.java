@@ -1,17 +1,13 @@
 package com.miskiewicz.michal.carservicemanagement.DTOs;
 
-import com.miskiewicz.michal.carservicemanagement.entities.Address;
 import com.miskiewicz.michal.carservicemanagement.entities.Car;
-import com.miskiewicz.michal.carservicemanagement.repositories.CarRepository;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
+import java.util.UUID;
 
-@Builder
-@Getter
-@Setter
+@Data
 public class UserDTO {
 
     private String firstname;
@@ -22,7 +18,9 @@ public class UserDTO {
 
     private List<Car> car;
 
-    private Address address;
+    private String city;
+
+    private UUID addressId;
 
     private String userType;
 }

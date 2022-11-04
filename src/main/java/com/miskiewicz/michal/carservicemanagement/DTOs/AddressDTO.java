@@ -1,14 +1,10 @@
 package com.miskiewicz.michal.carservicemanagement.DTOs;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.UUID;
 
-@Builder
-@Getter
-@Setter
+@Data
 public class AddressDTO {
 
     private UUID id;
