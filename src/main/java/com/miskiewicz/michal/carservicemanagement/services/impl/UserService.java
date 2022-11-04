@@ -4,6 +4,7 @@ import com.miskiewicz.michal.carservicemanagement.DTOs.UserDTO;
 import com.miskiewicz.michal.carservicemanagement.entities.Address;
 import com.miskiewicz.michal.carservicemanagement.entities.Car;
 import com.miskiewicz.michal.carservicemanagement.entities.User;
+import com.miskiewicz.michal.carservicemanagement.exceptions.UserAlreadyExistsException;
 import com.miskiewicz.michal.carservicemanagement.repositories.AddressRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.CarRepository;
 import com.miskiewicz.michal.carservicemanagement.repositories.UserRepository;
@@ -33,7 +34,7 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDTO addUser(User user) throws Exception {
+    public UserDTO addUser(User user) throws UserAlreadyExistsException {
         Optional<User> optionalUser = userRepository.getUserByEmail(user.getEmail());
         if (optionalUser.isEmpty()) {
             checkAddressExists(user);
@@ -43,23 +44,23 @@ public class UserService implements IUserService {
             log.info("Saved user has id: {}", savedUser.getId());
             return modelMapper.map(savedUser, UserDTO.class);
         } else {
-            throw new Exception("This user already exists!");
+            throw new UserAlreadyExistsException("This user already exists!");
         }
     }
 
     @Override
-    public UserDTO getUserById(UUID uuid) throws Exception {
+    public UserDTO getUserById(UUID uuid) {
         Optional<User> optionalUser = userRepository.findById(uuid);
         if(optionalUser.isEmpty()){
-            throw new Exception("There is no user with that ID");
+            throw new NullPointerException("There is no user with that ID");
         }else {
             return modelMapper.map(optionalUser.get(), UserDTO.class);
         }
     }
 
-    private void checkAddressExists(User user) throws Exception {
+    private void checkAddressExists(User user) {
         if(user.getAddress() == null){
-            throw new Exception("There is no address provided!");
+            throw new NullPointerException("There is no address provided!");
         }else {
             Optional<Address> optionalAddress =
                     addressRepository.getAddressByProvidedData(
@@ -75,9 +76,9 @@ public class UserService implements IUserService {
         }
     }
 
-    private void checkCarExists(User user) throws Exception {
+    private void checkCarExists(User user) {
         if(user.getCar() == null){
-            throw new Exception("There is no information about a car!");
+            throw new NullPointerException("There is no information about a car!");
         }else {
             List<Car> cars = new ArrayList<>();
             user.getCar().forEach(car -> {

@@ -37,15 +37,15 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public AppointmentDTO addAppointment(Appointment appointment, UUID carId) throws Exception {
+    public AppointmentDTO addAppointment(Appointment appointment, UUID carId) {
         Optional<Car> optionalCar = carRepository.findById(carId);
 
         if(appointment.getAppointmentType() == null){
-            throw new Exception("There is no appointment type provided");
+            throw new NullPointerException("There is no appointment type provided");
         }
 
         if(optionalCar.isEmpty()){
-            throw new Exception("There is no car in Database");
+            throw new NullPointerException("There is no car in Database");
         }
 
         appointmentTypeRepository.save(appointment.getAppointmentType());
@@ -56,15 +56,15 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public AppointmentDTO setFinishedDate(UUID appointmentId) throws Exception {
+    public AppointmentDTO setFinishedDate(UUID appointmentId) {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(appointmentId);
         if (optionalAppointment.isEmpty()){
-            throw new Exception("There is no Exception with that ID!");
+            throw new NullPointerException("There is no Exception with that ID!");
         }
 
         if (optionalAppointment.get().getFinishedDate() != null
                 && !optionalAppointment.get().getFinishedDate().toString().equals("")){
-            throw new Exception("The appointment has been finished already!");
+            throw new NullPointerException("The appointment has been finished already!");
         }
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -76,7 +76,7 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<AppointmentDTO> getAppointmentsByType(String type) throws Exception {
+    public List<AppointmentDTO> getAppointmentsByType(String type) {
         List<Appointment> optionalAppointments = appointmentRepository.findAll();
 
 
@@ -86,7 +86,7 @@ public class AppointmentService implements IAppointmentService {
                         appointment.getAppointmentType().getName().equals(type)).toList();
 
         if (appointmentsList.isEmpty()){
-            throw new Exception("There is no appointments of type: " + type);
+            throw new NullPointerException("There is no appointments of type: " + type);
         }
 
         return appointmentsList
@@ -97,10 +97,10 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<AppointmentDTO> getAppointmentsByVinNumber(String vinNumber) throws Exception {
+    public List<AppointmentDTO> getAppointmentsByVinNumber(String vinNumber) {
         List<Appointment> appointments = appointmentRepository.getAppointmentByVinNumber(vinNumber);
         if (appointments.isEmpty()){
-            throw new Exception("There is no appointments of car: " + vinNumber);
+            throw new NullPointerException("There is no appointments of car: " + vinNumber);
         }
 
         return appointments
@@ -110,10 +110,10 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<AppointmentDTO> getAppointmentsByBrandAndModel(String brand, String model) throws Exception {
+    public List<AppointmentDTO> getAppointmentsByBrandAndModel(String brand, String model) {
         List<Appointment> appointments = appointmentRepository.getAppointmentsByBrandAndModel(brand, model);
         if (appointments.isEmpty()){
-            throw new Exception("There is no appointments with: " + brand + " " + model);
+            throw new NullPointerException("There is no appointments with: " + brand + " " + model);
         }
 
         return appointments.stream()

@@ -11,13 +11,13 @@ import java.util.UUID;
 public interface IAppointmentService {
     Page<AppointmentDTO> getAllAppointments(Pageable page);
 
-    AppointmentDTO addAppointment(Appointment appointment, UUID carId) throws Exception;
+    AppointmentDTO addAppointment(Appointment appointment, UUID carId);
 
-    AppointmentDTO setFinishedDate(UUID appointmentId) throws Exception;
+    AppointmentDTO setFinishedDate(UUID appointmentId);
 
-    List<AppointmentDTO> getAppointmentsByType(String type) throws Exception;
+    List<AppointmentDTO> getAppointmentsByType(String type);
 
-    List<AppointmentDTO> getAppointmentsByVinNumber(String vinNumber) throws Exception;
+    List<AppointmentDTO> getAppointmentsByVinNumber(String vinNumber);
 
-    List<AppointmentDTO> getAppointmentsByBrandAndModel(String brand, String model) throws Exception;
+    List<AppointmentDTO> getAppointmentsByBrandAndModel(String brand, String model);
 }

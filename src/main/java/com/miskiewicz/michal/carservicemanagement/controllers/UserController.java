@@ -2,6 +2,7 @@ package com.miskiewicz.michal.carservicemanagement.controllers;
 
 import com.miskiewicz.michal.carservicemanagement.DTOs.UserDTO;
 import com.miskiewicz.michal.carservicemanagement.entities.User;
+import com.miskiewicz.michal.carservicemanagement.exceptions.UserAlreadyExistsException;
 import com.miskiewicz.michal.carservicemanagement.security.RefreshToken;
 import com.miskiewicz.michal.carservicemanagement.services.impl.UserService;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID uuid) throws Exception {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID uuid) {
         try {
             UserDTO userDTO = userService.getUserById(uuid);
             return ResponseEntity.ok(userDTO);
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<UserDTO> addUser(@RequestBody User user) throws Exception {
+    public ResponseEntity<UserDTO> addUser(@RequestBody User user) {
         try {
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/add").toUriString());
             UserDTO userDTO = userService.addUser(user);
