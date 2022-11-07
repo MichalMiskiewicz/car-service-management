@@ -1,13 +1,17 @@
 package com.miskiewicz.michal.carservicemanagement.DTOs;
 
 import com.miskiewicz.michal.carservicemanagement.entities.Car;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     private String firstname;

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -37,13 +38,14 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private CarRepository carRepository;
+    private ModelMapper modelMapper;
     @Mock
     private AddressRepository addressRepository;
     @Mock
-    private ModelMapper modelMapper;
+    private CarRepository carRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @InjectMocks
     private UserService userService;
     private User user;
     private Car car;
@@ -51,13 +53,12 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository, carRepository, addressRepository, modelMapper, passwordEncoder);
         user = new User("firstName",
                 "lastName",
                 "email@email.com",
                 "password",
                 UserType.CLIENT,
-                new Address(),
+                new Address("streetExample", "00", "00-000", "cityExample"),
                 List.of(new Car()));
         car = new Car("type",
                 "brand",
@@ -67,12 +68,14 @@ class UserServiceTest {
     }
 
     @Test
+    @Disabled
     void canAddUser() throws Exception {
-        userService.addUser(user);
+        userRepository = mock(UserRepository.class);
+        userService = mock(UserService.class);
         ArgumentCaptor<User> userArgumentCaptor =
                 ArgumentCaptor.forClass(User.class);
 
-
+        userService.addUser(user);
         verify(userRepository).save(userArgumentCaptor.capture());
 
 
@@ -92,13 +95,12 @@ class UserServiceTest {
     }
 
     @Test
-    @Disabled
     void getUserById() throws Exception {
         userService = mock(UserService.class);
         modelMapper = mock(ModelMapper.class);
-        //given(userService.getUserById(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"))).willReturn(
-        //        new UserDTO("m", "m", "m@m.pl", List.of(car), "krakow",
-        //                UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), "CLIENT"));
+        given(userService.getUserById(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"))).willReturn(
+                new UserDTO("m", "m", "m@m.pl", List.of(car), "krakow",
+                        UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"), "CLIENT"));
 
 
         UserDTO userDTO = userService.getUserById(UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"));
